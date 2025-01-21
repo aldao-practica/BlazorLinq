@@ -1,0 +1,16 @@
+﻿<button class="button-primary" @onclick="OnClickHandler">@Text</button>
+
+@code {
+    [Parameter]
+    public string? Text { get; set; }
+    [Parameter]
+    public EventCallback<int> OnClick { get; set; }
+
+    private async Task OnClickHandler()
+    {
+        if (OnClick.HasDelegate)
+        {
+            await OnClick.InvokeAsync();
+        }
+    }
+}

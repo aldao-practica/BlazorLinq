@@ -1,4 +1,6 @@
 ﻿@page "/users"
+@inject EmployeeService employeesService
+@using BlazorLinq.Components.Atoms
 @using BlazorLinq.Components.Molecules
 @rendermode InteractiveServer
 @attribute [StreamRendering]
@@ -21,7 +23,7 @@ else
             </button>
         </div>
     </div>
-    <div class="container">
+    <div class="container mb-5">
         <table class="table">
             <thead>
                 <tr>
@@ -41,21 +43,25 @@ else
                 }
             </tbody>
         </table>
-        <button class="btn btn-primary" @onclick="FiltrarMayoresDeEdad">Mostrar sólo mayores de edad</button>
+
+        <div class="container d-flex justify-content-center flex-wrap">
+            <PrimaryButton Text="Mostrar sólo mayores de edad" OnClick="FiltrarMayoresDeEdad" />
+            <PrimaryButton Text="Borrar Empleado" OnClick="RemoveEmployee" />
+        </div>
     </div>
 
 }
 
 @code {
-    List<User> users = new List<User>
-    {
-        new User(1, "John", "Doe", "john.doe@example.com", 25),
-        new User(2, "Jane", "Smith", "jane.smith@example.com", 17),
-        new User(3, "Alice", "Johnson", "alice.johnson@example.com", 30),
-        new User(4, "Bob", "Brown", "bob.brown@example.com", 20),
-        new User(5, "Emily", "Davis", "emily.davis@example.com", 16)
-    };
-    private List<User>? usersList;
+    // List<Employee> users = new List<Employee>
+    // {
+    //     new Employee(1, "John", "Doe", "john.doe@example.com", 25),
+    //     new Employee(2, "Jane", "Smith", "jane.smith@example.com", 17),
+    //     new Employee(3, "Alice", "Johnson", "alice.johnson@example.com", 30),
+    //     new Employee(4, "Bob", "Brown", "bob.brown@example.com", 20),
+    //     new Employee(5, "Emily", "Davis", "emily.davis@example.com", 16)
+    // };
+    private List<Employee>? usersList;
     private string SearchInputText { get; set; } = "";
 
     protected override async Task OnInitializedAsync()
@@ -65,42 +71,24 @@ else
         // usersList = (from user in users
         //                        where user.Age > 18
         //                        select user).ToList();
-        usersList = users.ToList();
-    }
-
-    private class User
-    {
-        public int Id { get; set; }
-        public string FirstName { get; set; }
-        public string LastName { get; set; }
-        public string Email { get; set; }
-        public int Age { get; set; }
-
-        public User(int id, string firstName, string lastName, string email, int age)
-        {
-            Id = id;
-            FirstName = firstName;
-            LastName = lastName;
-            Email = email;
-            Age = age;
-        }
-
-        public override string ToString()
-        {
-            return $"Id: {Id}, Name: {FirstName} {LastName}, Email: {Email}, Age: {Age}";
-        }
+        usersList = employeesService.GetAllEmployees();
     }
 
     private void FiltrarMayoresDeEdad()
     {
-        usersList = (from user in users
+        usersList = (from user in usersList
                      where user.Age > 18
                      select user).ToList();
     }
 
     private void BuscarEmpleado()
     {
-        usersList = users.Where(u => u.FirstName.ToLower().Contains(SearchInputText.ToLower())
+        usersList = usersList?.Where(u => u.FirstName.ToLower().Contains(SearchInputText.ToLower())
         || u.LastName.ToLower().Contains(SearchInputText.ToLower())).ToList();
+    }
+
+    private void RemoveEmployee()
+    {
+        employeesService.RemoveEmployee(5);
     }
 }
