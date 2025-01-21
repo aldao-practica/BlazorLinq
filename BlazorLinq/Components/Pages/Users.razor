@@ -1,0 +1,83 @@
+﻿@page "/users"
+@attribute [StreamRendering]
+
+<PageTitle>Users</PageTitle>
+
+<h1>Users</h1>
+
+<p>This component demonstrates showing data.</p>
+
+@if (usersList == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Firstname</th>
+                <th>Lastname</th>
+                <th>Age</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var forecast in usersList)
+            {
+                <tr>
+                    <td>@forecast.FirstName</td>
+                    <td>@forecast.LastName</td>
+                    <td>@forecast.Age</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+    List<User> users = new List<User>
+    {
+        new User(1, "John", "Doe", "john.doe@example.com", 25),
+        new User(2, "Jane", "Smith", "jane.smith@example.com", 17),
+        new User(3, "Alice", "Johnson", "alice.johnson@example.com", 30),
+        new User(4, "Bob", "Brown", "bob.brown@example.com", 20),
+        new User(5, "Emily", "Davis", "emily.davis@example.com", 16)
+    };
+    private List<User>? usersList;
+
+    protected override async Task OnInitializedAsync()
+    {
+        // Simulate asynchronous loading to demonstrate streaming rendering
+        await Task.Delay(500);
+        usersList = (from user in users
+                               where user.Age > 18
+                               select user).ToList();
+    }
+
+    private class User
+    {
+        // Propiedades públicas
+        public int Id { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+        public string Email { get; set; }
+        public int Age { get; set; }
+
+
+        // Constructor para inicializar propiedades
+        public User(int id, string firstName, string lastName, string email, int age)
+        {
+            Id = id;
+            FirstName = firstName;
+            LastName = lastName;
+            Email = email;
+            Age = age;
+        }
+
+        // Método para mostrar información del usuario
+        public override string ToString()
+        {
+            return $"Id: {Id}, Name: {FirstName} {LastName}, Email: {Email}, Age: {Age}";
+        }
+    }
+}
