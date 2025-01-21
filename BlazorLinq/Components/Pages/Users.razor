@@ -1,37 +1,49 @@
 ﻿@page "/users"
+@using BlazorLinq.Components.Molecules
+@rendermode InteractiveServer
 @attribute [StreamRendering]
 
-<PageTitle>Users</PageTitle>
+<PageTitle>Empleados</PageTitle>
 
-<h1>Users</h1>
-
-<p>This component demonstrates showing data.</p>
+<h1>Empleados</h1>
 
 @if (usersList == null)
 {
-    <p><em>Loading...</em></p>
+    <LoadingSpinner />
 }
 else
 {
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Firstname</th>
-                <th>Lastname</th>
-                <th>Age</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var forecast in usersList)
-            {
+    <div class="container my-5">
+        <div class="input-group">
+            <input type="text" class="form-control" placeholder="Buscar..." @bind="SearchInputText" />
+            <button class="btn btn-primary" type="button" @onclick="BuscarEmpleado">
+                Buscar empleado
+            </button>
+        </div>
+    </div>
+    <div class="container">
+        <table class="table">
+            <thead>
                 <tr>
-                    <td>@forecast.FirstName</td>
-                    <td>@forecast.LastName</td>
-                    <td>@forecast.Age</td>
+                    <th>Nombre</th>
+                    <th>Apellido</th>
+                    <th>Edad</th>
                 </tr>
-            }
-        </tbody>
-    </table>
+            </thead>
+            <tbody>
+                @foreach (var forecast in usersList)
+                {
+                    <tr>
+                        <td>@forecast.FirstName</td>
+                        <td>@forecast.LastName</td>
+                        <td>@forecast.Age</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+        <button class="btn btn-primary" @onclick="FiltrarMayoresDeEdad">Mostrar sólo mayores de edad</button>
+    </div>
+
 }
 
 @code {
@@ -44,27 +56,26 @@ else
         new User(5, "Emily", "Davis", "emily.davis@example.com", 16)
     };
     private List<User>? usersList;
+    private string SearchInputText { get; set; } = "";
 
     protected override async Task OnInitializedAsync()
     {
         // Simulate asynchronous loading to demonstrate streaming rendering
-        await Task.Delay(500);
-        usersList = (from user in users
-                               where user.Age > 18
-                               select user).ToList();
+        // await Task.Delay(500);
+        // usersList = (from user in users
+        //                        where user.Age > 18
+        //                        select user).ToList();
+        usersList = users.ToList();
     }
 
     private class User
     {
-        // Propiedades públicas
         public int Id { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string Email { get; set; }
         public int Age { get; set; }
 
-
-        // Constructor para inicializar propiedades
         public User(int id, string firstName, string lastName, string email, int age)
         {
             Id = id;
@@ -74,10 +85,22 @@ else
             Age = age;
         }
 
-        // Método para mostrar información del usuario
         public override string ToString()
         {
             return $"Id: {Id}, Name: {FirstName} {LastName}, Email: {Email}, Age: {Age}";
         }
+    }
+
+    private void FiltrarMayoresDeEdad()
+    {
+        usersList = (from user in users
+                     where user.Age > 18
+                     select user).ToList();
+    }
+
+    private void BuscarEmpleado()
+    {
+        usersList = users.Where(u => u.FirstName.ToLower().Contains(SearchInputText.ToLower())
+        || u.LastName.ToLower().Contains(SearchInputText.ToLower())).ToList();
     }
 }

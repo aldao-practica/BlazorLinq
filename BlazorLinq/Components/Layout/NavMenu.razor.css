@@ -62,6 +62,10 @@
         position: absolute;
         background-color: #FFFFFF;
         display: flex;
-        flex-direction: column
+        flex-direction: column;
+        border-bottom-left-radius: 20px;
+        border-bottom-right-radius: 20px;
+        border: solid #d3d3d3 2px;
+        z-index: 3;
     }
 }
