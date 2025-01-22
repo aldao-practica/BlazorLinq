@@ -1,0 +1,10 @@
+﻿.button-secondary {
+    background-color: #FFFFFF;
+    color: var(--primary-text-color);
+    border: none;
+    border-radius: 30px;
+    border: solid #919191 1px;
+    font-weight: 700;
+    margin: 12px;
+    padding: 12px 25px;
+}

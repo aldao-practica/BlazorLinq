@@ -1,0 +1,9 @@
+﻿@* @typeparam string *@
+
+<InputText id="@Id" class="form-control" @bind-Value="@Value" style="border: solid red 1px;"/>
+
+@code {
+    [Parameter] public string Id { get; set; } = string.Empty;
+    [Parameter] required public string Value { get; set; }
+    [Parameter] public EventCallback<string> ValueChanged { get; set; }
+}

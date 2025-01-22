@@ -31,7 +31,6 @@ public class EmployeeService : INotifyPropertyChanged
         };
     }
 
-    // Métodos para gestionar la lista
     public void AddEmployee(Employee employee)
     {
         Employees.Add(employee);

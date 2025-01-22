@@ -1,5 +1,6 @@
-﻿@page "/users"
+﻿@page "/employees"
 @inject EmployeeService employeesService
+@inject NavigationManager NavigationManager
 @using BlazorLinq.Components.Atoms
 @using BlazorLinq.Components.Molecules
 @rendermode InteractiveServer
@@ -7,16 +8,16 @@
 
 <PageTitle>Empleados</PageTitle>
 
-<h1>Empleados</h1>
-
-@if (usersList == null)
+@if (employeersList == null)
 {
     <LoadingSpinner />
 }
 else
 {
     <div class="container my-5">
-        <div class="input-group">
+        <h1 class="mb-3">Empleados</h1>
+        <PrimaryButton Text="Agregar un empleado" OnClick="NavigateToNewEmployeeForm" />
+        <div class="input-group mt-4">
             <input type="text" class="form-control" placeholder="Buscar..." @bind="SearchInputText" />
             <button class="btn btn-primary" type="button" @onclick="BuscarEmpleado">
                 Buscar empleado
@@ -30,15 +31,19 @@ else
                     <th>Nombre</th>
                     <th>Apellido</th>
                     <th>Edad</th>
+                    <th>Acciones</th>
                 </tr>
             </thead>
             <tbody>
-                @foreach (var forecast in usersList)
+                @foreach (var forecast in employeersList)
                 {
                     <tr>
                         <td>@forecast.FirstName</td>
                         <td>@forecast.LastName</td>
                         <td>@forecast.Age</td>
+                        <td>
+                            <a href="/employee-form/@forecast.Id" class="btn btn-primary">Editar</a>
+                        </td>
                     </tr>
                 }
             </tbody>
@@ -53,42 +58,38 @@ else
 }
 
 @code {
-    // List<Employee> users = new List<Employee>
-    // {
-    //     new Employee(1, "John", "Doe", "john.doe@example.com", 25),
-    //     new Employee(2, "Jane", "Smith", "jane.smith@example.com", 17),
-    //     new Employee(3, "Alice", "Johnson", "alice.johnson@example.com", 30),
-    //     new Employee(4, "Bob", "Brown", "bob.brown@example.com", 20),
-    //     new Employee(5, "Emily", "Davis", "emily.davis@example.com", 16)
-    // };
-    private List<Employee>? usersList;
+    private List<Employee>? employeersList;
     private string SearchInputText { get; set; } = "";
 
     protected override async Task OnInitializedAsync()
     {
         // Simulate asynchronous loading to demonstrate streaming rendering
-        // await Task.Delay(500);
-        // usersList = (from user in users
+        // await Task.Delay(500);        // usersList = (from user in users
         //                        where user.Age > 18
         //                        select user).ToList();
-        usersList = employeesService.GetAllEmployees();
+        employeersList = employeesService.GetAllEmployees();
     }
 
     private void FiltrarMayoresDeEdad()
     {
-        usersList = (from user in usersList
+        employeersList = (from user in employeersList
                      where user.Age > 18
                      select user).ToList();
     }
 
     private void BuscarEmpleado()
     {
-        usersList = usersList?.Where(u => u.FirstName.ToLower().Contains(SearchInputText.ToLower())
+        employeersList = employeersList?.Where(u => u.FirstName.ToLower().Contains(SearchInputText.ToLower())
         || u.LastName.ToLower().Contains(SearchInputText.ToLower())).ToList();
     }
 
     private void RemoveEmployee()
     {
         employeesService.RemoveEmployee(5);
+    }
+
+    private void NavigateToNewEmployeeForm()
+    {
+        NavigationManager.NavigateTo("/employee-form");
     }
 }

@@ -1,0 +1,89 @@
+﻿@page "/employee-form/{EmployeeId:int?}"
+@using System.ComponentModel.DataAnnotations
+@using BlazorLinq.Components.Atoms
+@rendermode InteractiveServer
+@inject NavigationManager NavigationManager
+@inject EmployeeService EmployeeService
+
+<div class="container mt-5">
+    <h3 class="mb-5">@(employee.Id == 0 ? "Agregar nuevo Empleado" : "Editar Empleado")</h3>
+</div>
+
+<div class="container my-5 pb-5" style="max-width: 450px;">
+    <EditForm Model="@employee" OnValidSubmit="@HandleValidSubmit" FormName="employee-form">
+        <DataAnnotationsValidator />
+
+        <div class="form-group" style="height: 84px;">
+            <label for="firstName">First Name:</label>
+            @* <InputTextCustom Id="firstName" Value="@employee.FirstName" /> *@
+            <InputText id="firstName" class="form-control" @bind-Value="employee.FirstName" />
+            <ValidationMessage For="@(() => employee.FirstName)" />
+        </div>
+
+        <div class="form-group" style="height: 84px;">
+            <label for="lastName">Last Name:</label>
+            <InputText id="lastName" class="form-control" @bind-Value="employee.LastName" />
+            <ValidationMessage For="@(() => employee.LastName)" />
+        </div>
+
+        <div class="form-group" style="height: 84px;">
+            <label for="email">Email:</label>
+            <InputText id="email" type="email" class="form-control" @bind-Value="employee.Email" />
+            <ValidationMessage For="@(() => employee.Email)" />
+        </div>
+
+        <div class="form-group" style="height: 84px;">
+            <label for="age">Age:</label>
+            <InputNumber id="age" class="form-control" @bind-Value="employee.Age" />
+            <ValidationMessage For="@(() => employee.Age)" />
+        </div>
+
+        @* <button type="submit" class="btn btn-primary">Save</button> *@
+        <div class="mt-3">
+            <PrimaryButton Text="Guardar" />
+            <SecondaryButton Text="Cancelar" OnClick="Cancel" />
+        </div>
+    </EditForm>
+</div>
+
+@if (!string.IsNullOrEmpty(statusMessage))
+{
+    <p class="alert alert-info">@statusMessage</p>
+}
+
+@code {
+    [Parameter] public int? EmployeeId { get; set; }
+
+    private Employee employee = new Employee(0, string.Empty, string.Empty, string.Empty, 18);
+    private string statusMessage = string.Empty;
+
+    protected override async Task OnInitializedAsync()
+    {
+        if (EmployeeId.HasValue)
+        {
+            employee = EmployeeService.GetEmployeeById(EmployeeId.Value);
+        }
+    }
+
+    private void HandleValidSubmit()
+    {
+        if (employee.Id != 0)
+        {
+            EmployeeService.UpdateEmployee(employee);
+            statusMessage = "Employee updated successfully!";
+        }
+        else
+        {
+            EmployeeService.AddEmployee(employee);
+            statusMessage = "Employee added successfully!";
+        }
+
+        NavigationManager.NavigateTo("/employees");
+        Console.WriteLine($"Employee: {employee.FirstName} {employee.LastName}");
+    }
+
+    private void Cancel()
+    {
+        NavigationManager.NavigateTo("/employees");
+    }
+}
