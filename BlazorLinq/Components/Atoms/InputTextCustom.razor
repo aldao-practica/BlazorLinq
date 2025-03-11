@@ -1,25 +1,22 @@
-﻿@* @typeparam string *@
-
-<InputText id="@Id" class="form-control" 
-           @bind-Value="Value" 
-           @oninput="HandleInputChange"
-           style="border: solid red 1px;" />
+﻿<InputText id="@Id" class="form-control"
+		   @bind-Value="MiValor"
+		   @oninput="HandleInputChange"
+           style="border: solid teal 1px;" />
 
 @code {
     [Parameter] public string Id { get; set; } = string.Empty;
-	[Parameter] public string Value { get; set; } = string.Empty;
-
-	[Parameter] public EventCallback<string> ValueChanged { get; set; }
+	[Parameter] public string MiValor { get; set; } = string.Empty;
+	[Parameter] public EventCallback<string> MiValorChanged { get; set; }
 
 	protected override async Task OnInitializedAsync()
 	{
-		Console.WriteLine($"OnInitializedAsync is called in InputTextCustom CurrentCount is {Value}.");
+		Console.WriteLine($"OnInitializedAsync is called in InputTextCustom CurrentCount is {MiValor}.");
 		await base.OnInitializedAsync();
 	}
 
 	protected override void OnParametersSet()
 	{
-		Console.WriteLine("OnParametersSet is called. CurrentCount is " + Value);
+		Console.WriteLine("OnParametersSet is called. CurrentCount is " + MiValor);
 		base.OnParametersSet();
 	}
 
@@ -27,7 +24,7 @@
 	{
 		if (e.Value is string newValue)
 		{
-			await ValueChanged.InvokeAsync(newValue);
+			await MiValorChanged.InvokeAsync(newValue);
 		}
 	}
 }
