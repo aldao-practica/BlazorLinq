@@ -1,7 +1,17 @@
 ﻿@page "/"
+@rendermode InteractiveServer
 
-<PageTitle>Home</PageTitle>
+<PageTitle>Razor lifecycle</PageTitle>
 
-<h1>Hello, world!</h1>
+<h1 class="mb-5">Razor lifecycle</h1>
+<ChildComponent CurrentCount="@ParentCount" />
+<button class="btn btn-primary" @onclick="IncrementarContador">Incrementar (Parent)</button>
 
-Welcome to your new app.
+@code {
+	public int ParentCount { get; set; } = 0;
+
+	private void IncrementarContador()
+	{
+		ParentCount++;
+	}
+}

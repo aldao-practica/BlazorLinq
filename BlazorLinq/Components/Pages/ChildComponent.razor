@@ -1,0 +1,66 @@
+﻿@* @implements IDisposable *@
+
+<h3 class="mb-3">Contador: @CurrentCount</h3>
+
+
+<button class="btn btn-primary" @onclick="IncrementarContador">Incrementar (Child)</button>
+
+@code {
+	[Parameter]
+	public int CurrentCount { get; set; } = 0;
+
+	private void IncrementarContador()
+	{
+		CurrentCount++;
+	}
+
+	protected override void OnInitialized()
+	{
+		Console.WriteLine($"OnInitialized is called. CurrentCount is {CurrentCount}.");
+		base.OnInitialized();
+	}
+
+	protected override async Task OnInitializedAsync()
+	{
+		Console.WriteLine($"OnInitializedAsync is called. CurrentCount is {CurrentCount}.");
+		await base.OnInitializedAsync();
+	}
+
+	protected override void OnParametersSet()
+	{
+		Console.WriteLine("OnParametersSet is called. CurrentCount is " + CurrentCount);
+		base.OnParametersSet();
+	}
+
+	protected override async Task OnParametersSetAsync()
+	{
+		await Task.Delay(500);
+		Console.WriteLine("OnParametersSetAsync is called. CurrentCount is " + CurrentCount);
+		await base.OnParametersSetAsync();
+	}
+
+	protected override void OnAfterRender(bool firstRender)
+	{
+		if (firstRender)
+		{
+			Console.WriteLine("OnAfterRender is called. CurrentCount is " + CurrentCount);
+		}
+		base.OnAfterRender(firstRender);
+	}
+
+	protected override async Task OnAfterRenderAsync(bool firstRender)
+	{
+		if (firstRender)
+		{
+			await Task.Delay(500);
+			Console.WriteLine("OnAfterRenderAsync is called. CurrentCount is " + CurrentCount);
+		}
+		await base.OnAfterRenderAsync(firstRender);
+	}
+
+	public void Dispose()
+	{
+		Console.WriteLine("El componente se desmontó y los recursos se liberaron");
+		// Aquí puedes liberar eventos, recursos, etc.
+	}
+}

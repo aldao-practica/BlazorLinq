@@ -1,6 +1,5 @@
 ﻿@page "/employee-form/{EmployeeId:int?}"
 @using System.ComponentModel.DataAnnotations
-@using BlazorLinq.Components.Atoms
 @rendermode InteractiveServer
 @inject NavigationManager NavigationManager
 @inject EmployeeService EmployeeService
@@ -15,8 +14,8 @@
 
         <div class="form-group" style="height: 84px;">
             <label for="firstName">First Name:</label>
-            @* <InputTextCustom Id="firstName" Value="@employee.FirstName" /> *@
-            <InputText id="firstName" class="form-control" @bind-Value="employee.FirstName" />
+            <InputTextCustom Id="firstName" @bind-Value="employee.FirstName" />
+            @* <InputText id="firstName" class="form-control" @bind-Value="employee.FirstName" /> *@
             <ValidationMessage For="@(() => employee.FirstName)" />
         </div>
 
@@ -54,7 +53,7 @@
 @code {
     [Parameter] public int? EmployeeId { get; set; }
 
-    private Employee employee = new Employee(0, string.Empty, string.Empty, string.Empty, 18);
+    private Employee employee = new Employee(0, "asd", "asd", string.Empty, 18);
     private string statusMessage = string.Empty;
 
     protected override async Task OnInitializedAsync()
@@ -79,7 +78,6 @@
         }
 
         NavigationManager.NavigateTo("/employees");
-        Console.WriteLine($"Employee: {employee.FirstName} {employee.LastName}");
     }
 
     private void Cancel()
