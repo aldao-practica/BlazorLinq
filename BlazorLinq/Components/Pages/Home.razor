@@ -1,11 +1,11 @@
-﻿@page "/"
+﻿@page "/count"
 @rendermode InteractiveServer
 
-<PageTitle>Razor lifecycle</PageTitle>
+<PageTitle>Home</PageTitle>
 
 <h1 class="mb-5">Razor lifecycle</h1>
 <ChildComponent CurrentCount="@ParentCount" />
-<button class="btn btn-primary" @onclick="IncrementarContador">Incrementar (Parent)</button>
+<button class="btn btn-primary" @onclick="IncrementarContador">Incrementar desde el Parent</button>
 
 @code {
 	public int ParentCount { get; set; } = 0;

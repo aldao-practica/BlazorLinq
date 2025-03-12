@@ -1,0 +1,20 @@
+﻿@page "/event-callback"
+@rendermode InteractiveServer
+
+<h3>Event Callback Example</h3>
+
+<p>
+    Current Count: @currentCount
+</p>
+
+<EventCallbackExampleChildComponent  SetCurrentCount="SetCurrentCount"/>
+
+@code {
+    private int currentCount;
+
+
+    private void SetCurrentCount(int value)
+    {
+        currentCount = value;
+    }
+}

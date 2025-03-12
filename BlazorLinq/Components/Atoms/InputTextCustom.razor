@@ -10,13 +10,13 @@
 
 	protected override async Task OnInitializedAsync()
 	{
-		Console.WriteLine($"OnInitializedAsync is called in InputTextCustom CurrentCount is {MiValor}.");
+		Console.WriteLine($"OnInitializedAsync va a ser llamado cuando se inicializa el componente.");
 		await base.OnInitializedAsync();
 	}
 
 	protected override void OnParametersSet()
 	{
-		Console.WriteLine("OnParametersSet is called. CurrentCount is " + MiValor);
+		Console.WriteLine("OnParametersSet va a ser llamado cada vez que los parametros cambien " + MiValor);
 		base.OnParametersSet();
 	}
 
