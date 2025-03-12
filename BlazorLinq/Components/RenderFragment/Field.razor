@@ -1,0 +1,20 @@
+﻿<div class="d-flex align-items-center mb-3" style="max-width: 400px">
+    <div class="me-3" style="width: 120px">
+        <label class="form-label">@Label</label>
+    </div>
+    <div class="flex-grow-1">
+        <div class="mb-2">
+            <p class="form-control">
+                @Control
+            </p>
+        </div>
+    </div>
+</div>
+
+@code {
+    [Parameter]
+    required public string Label { get; set; }
+
+    [Parameter]
+    required public RenderFragment Control { get; set; }
+}

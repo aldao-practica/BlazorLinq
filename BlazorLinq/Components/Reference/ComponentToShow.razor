@@ -1,0 +1,14 @@
+﻿@if (display)
+{
+    <h3>ComponentToShow</h3>
+}
+
+@code {
+    private bool display = false;
+
+    public void ToggleShow()
+    {
+        display = !display;
+        StateHasChanged();
+    }
+}

@@ -1,0 +1,10 @@
+﻿@page "/reference"
+@rendermode InteractiveServer
+
+<h3>Reference</h3>
+<button class="btn btn-primary" @onclick="(() => { componentToShow.ToggleShow(); })">Mostrar component</button>
+<ComponentToShow @ref="componentToShow"/>
+
+@code {
+  private ComponentToShow componentToShow;
+}
