@@ -1,0 +1,58 @@
+﻿@page "/life-cycle"
+@rendermode InteractiveServer
+
+<PageTitle>Home</PageTitle>
+
+<h1 class="mb-5">Razor lifecycle</h1>
+
+@code {
+	protected override void OnInitialized()
+	{
+		Console.WriteLine($"OnInitialized es llamado cuando el componente es inicializado.");
+		base.OnInitialized();
+	}
+
+	protected override async Task OnInitializedAsync()
+	{
+		Console.WriteLine($"OnInitializedAsync es llamado cuando el componente es inicializado.");
+		await base.OnInitializedAsync();
+	}
+
+	protected override void OnParametersSet()
+	{
+		Console.WriteLine("OnParametersSet es llamado cuando los parametros cambian su valor");
+		base.OnParametersSet();
+	}
+
+	protected override async Task OnParametersSetAsync()
+	{
+		await Task.Delay(500);
+		Console.WriteLine("OnParametersSetAsync es llamado cuando los parametros cambian su valor");
+		await base.OnParametersSetAsync();
+	}
+
+	protected override void OnAfterRender(bool firstRender)
+	{
+		if (firstRender) // Verifica si es la primera renderización
+		{
+			Console.WriteLine("OnAfterRender se ejecuta después de que el componente se ha renderizado en la interfaz de usuario.");
+		}
+		base.OnAfterRender(firstRender);
+	}
+
+	protected override async Task OnAfterRenderAsync(bool firstRender)
+	{
+		if (firstRender) // Verifica si es la primera renderización
+		{
+			await Task.Delay(500);
+			Console.WriteLine("OnAfterRenderAsync se ejecuta después de que el componente se ha renderizado en la interfaz de usuario.");
+		}
+		await base.OnAfterRenderAsync(firstRender);
+	}
+
+	public void Dispose()
+	{
+		Console.WriteLine("El componente se desmontó y los recursos se liberaron");
+		// Aquí puedes liberar eventos, recursos, etc.
+	}
+}

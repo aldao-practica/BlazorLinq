@@ -1,17 +1,27 @@
-﻿@page "/count"
-@rendermode InteractiveServer
+﻿@page "/"
 
-<PageTitle>Home</PageTitle>
+<h3>Glosario</h3>
 
-<h1 class="mb-5">Razor lifecycle</h1>
-<ChildComponent CurrentCount="@ParentCount" />
-<button class="btn btn-primary" @onclick="IncrementarContador">Incrementar desde el Parent</button>
+<div class="nav-item px-3">
+    <NavLink class="nav-link px-0" href="life-cycle">
+        <span class="bi bi-list-nested-nav-menu" aria-hidden="true"></span> Life Cycle Blazor
+    </NavLink>
+</div>
+
+<div class="nav-item px-3">
+    <NavLink class="nav-link px-0" href="event-callback">
+        <span class="bi bi-list-nested-nav-menu" aria-hidden="true"></span> Event Callback 
+    </NavLink>
+    <p style="max-width: 500px;">Es como pasamos funciones a componentes hijos por parámetro.</p>
+</div>
+
+<div class="nav-item px-3">
+    <NavLink class="nav-link px-0" href="parameters">
+        <span class="bi bi-list-nested-nav-menu" aria-hidden="true"></span> Pasar parámetros a los componentes
+    </NavLink>
+</div>
+
 
 @code {
-	public int ParentCount { get; set; } = 0;
 
-	private void IncrementarContador()
-	{
-		ParentCount++;
-	}
 }

@@ -10,4 +10,10 @@
     <Content Remove="Components\PrimaryButton.razor" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Content Update="Components\Pages\LifeCycle.razor">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+    </Content>
+  </ItemGroup>
+
 </Project>

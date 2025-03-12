@@ -1,0 +1,17 @@
+﻿@page "/parameters"
+@rendermode InteractiveServer
+
+<PageTitle>Parámetros a componentes</PageTitle>
+
+<h1 class="mb-5">Pasar parámetros a componentes</h1>
+<ChildComponent CurrentCount="@ParentCount" />
+<button class="btn btn-primary" @onclick="IncrementarContador">Incrementar desde el Parent</button>
+
+@code {
+	public int ParentCount { get; set; } = 0;
+
+	private void IncrementarContador()
+	{
+		ParentCount++;
+	}
+}
