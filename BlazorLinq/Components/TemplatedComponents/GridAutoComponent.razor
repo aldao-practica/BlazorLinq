@@ -1,10 +1,9 @@
-﻿@typeparam TItem
-
-@using System.Reflection
+﻿@typeparam TItem // Es un tipo genérico, lo que vuelve más flexible nuestro componente
+@using System.Reflection @* para poder inspeccionar las propiedades de los objetos en tiempo de ejecución. *@
 
 @if (memberInfo != null && memberInfo.Length > 0)
 {
-    <table class="@($"table {this.CSSClass}")">
+    <table class="@($"{this.CSSClass}")">
         <thead>
             <tr>
                 @foreach(var member in memberInfo)
@@ -13,7 +12,7 @@
                        !ColumnsToExcludeCSV.Contains(member.Name, StringComparison.OrdinalIgnoreCase))
                     {
                         <th>
-                            @member.Name
+                            @member.Name @* Obtengo el Name de la propiedad *@
                         </th>
                     }
                 }
@@ -57,8 +56,8 @@
     public List<TItem> Items { get; set; }
 
     [Parameter]
-    public string ColumnsToExcludeCSV { get; set; }
+    public string ?ColumnsToExcludeCSV { get; set; }
 
     [Parameter]
-    public string CSSClass { get; set; }
+    public string ?CSSClass { get; set; }
 }

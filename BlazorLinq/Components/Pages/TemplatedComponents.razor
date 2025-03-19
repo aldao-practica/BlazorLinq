@@ -1,9 +1,33 @@
 ﻿@page "/templated-components"
+@using BlazorLinq.Components.TemplatedComponents
 
-<GridAutoComponent Items="employees" ColumnsToExcludeCSV="Id"></GridAutoComponent>
+@* Podriamos reemplazar el parametro Items con listas de otros objetos porque es flexible *@
+<GridAutoComponent Items="courses" CSSClass="table table-striped table-bordered table-hover table-responsive" ColumnsToExcludeCSV="Id" />
+
+
+<RepeaterComponent Items="employees" @ref="repeater">
+    <Header>
+        <h2>Employee</h2>
+    </Header>
+    <Row Context="employee">
+        <div>
+            <b>@employee.CompanyName</b>
+            &nbsp;
+            <button class="btn" @onclick="@(() => { Edit(employee) })">
+                Edit
+            </button>
+        </div>
+        <div><b>@employee.Name</b></div>
+        <div class="ml-5">@employee.Title</div>
+        <div class="ml-5">@employee.Department</div>
+        <br />
+    </Row>
+</RepeaterComponent>
 
 @code {
+    private RepeaterComponent<Employee> repeater;
     private List<Employee> employees;
+    private List<Course> courses;
 
     protected override void OnInitialized()
     {
@@ -12,14 +36,31 @@
         employees.AddRange(new Employee[2] {
             new Employee { Id = 1, Name = "John Doe", Title = "Developer", Department = "Dev" },
             new Employee { Id = 2, Name = "Jane Doe", Title = "Developer", Department = "Dev" },
-        });
+    });
+        courses = new List<Course>();
+        courses.AddRange(new Course[2] {
+            new Course { Id = 1, Description = "Curso de C#", HoursLength = 4},
+            new Course { Id = 2, Description = "Curso de Js", HoursLength = 9},
+    });
+    }
+
+    private void EditEmployee(Employee employee)
+    {
+        repeater.ItemToEdit = employee;
     }
 
     public class Employee
     {
         public int Id { get; set; }
-        public string Name { get; set; }
-        public string Title { get; set; }
-        public string Department { get; set; }
+        public required string Name { get; set; }
+        public required string Title { get; set; }
+        public required string Department { get; set; }
+    }
+
+    public class Course
+    {
+        public int Id { get; set; }
+        public required string Description { get; set; }
+        public int HoursLength { get; set; }
     }
 }

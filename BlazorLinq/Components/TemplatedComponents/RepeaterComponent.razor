@@ -1,0 +1,29 @@
+﻿@typeparam TItem
+
+@Header
+@foreach(var item in Items)
+{
+    @Row(item)
+}
+@Footer
+
+@if (EditTemplate != null && ItemToEdit != null)
+{
+    @EditTemplate(ItemToEdit)
+}
+@* SEGUIR ACA https://youtu.be/4G_BzLxa9Nw?si=TmODySVh3hoptLv7&t=12222
+ *@
+@code {
+    [Parameter]
+    public required RenderFragment Header { get; set; }
+    [Parameter]
+    public required RenderFragment<TItem> Row { get; set; }
+    [Parameter]
+    public required List<TItem> Items { get; set; } 
+    [Parameter]
+    public required RenderFragment Footer { get; set; }
+    [Parameter]
+    public RenderFragment<TItem> ?EditTemplate { get; set; }
+    [Parameter]
+    public TItem ?ItemToEdit { get; set; }
+}
