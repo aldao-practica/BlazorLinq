@@ -1,3 +1,4 @@
+using BlazorLinq;
 using BlazorLinq.Components;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -6,7 +7,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
 
-builder.Services.AddSingleton<EmployeeService>();
+builder.Services.AddSingleton<IEmployeeService, EmployeeService>();
 
 var app = builder.Build();
 

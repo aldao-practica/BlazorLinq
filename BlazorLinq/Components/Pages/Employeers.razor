@@ -1,5 +1,5 @@
 ﻿@page "/employees"
-@inject EmployeeService employeesService
+@inject IEmployeeService EmployeeServi
 @inject NavigationManager NavigationManager
 @using BlazorLinq.Components.Atoms
 @using BlazorLinq.Components.Molecules
@@ -8,7 +8,9 @@
 
 <PageTitle>Empleados</PageTitle>
 
-@if (employeersList == null)
+<p>Instancia Servicio @EmployeeServi.Uid</p>
+ 
+ @if (employeersList == null)
 {
     <LoadingSpinner />
 }
@@ -29,7 +31,6 @@ else
             <thead>
                 <tr>
                     <th>Nombre</th>
-                    <th>Apellido</th>
                     <th>Edad</th>
                     <th>Acciones</th>
                 </tr>
@@ -38,8 +39,7 @@ else
                 @foreach (var forecast in employeersList)
                 {
                     <tr>
-                        <td>@forecast.FirstName</td>
-                        <td>@forecast.LastName</td>
+                        <td>@forecast.FullName</td>
                         <td>@forecast.Age</td>
                         <td>
                             <a href="/employee-form/@forecast.Id" class="btn btn-primary">Editar</a>
@@ -67,7 +67,7 @@ else
         // await Task.Delay(500);        // usersList = (from user in users
         //                        where user.Age > 18
         //                        select user).ToList();
-        employeersList = employeesService.GetAllEmployees();
+        employeersList = EmployeeServi.GetAllEmployees();
     }
 
     private void FiltrarMayoresDeEdad()
@@ -79,13 +79,12 @@ else
 
     private void BuscarEmpleado()
     {
-        employeersList = employeersList?.Where(u => u.FirstName.ToLower().Contains(SearchInputText.ToLower())
-        || u.LastName.ToLower().Contains(SearchInputText.ToLower())).ToList();
+        employeersList = employeersList?.Where(u => u.FullName.ToLower().Contains(SearchInputText.ToLower())).ToList();
     }
 
     private void RemoveEmployee()
     {
-        employeesService.RemoveEmployee(5);
+        EmployeeServi.RemoveEmployee(5);
     }
 
     private void NavigateToNewEmployeeForm()

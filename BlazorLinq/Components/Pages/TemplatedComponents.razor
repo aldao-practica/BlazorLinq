@@ -1,5 +1,6 @@
 ﻿@page "/templated-components"
 @using BlazorLinq.Components.TemplatedComponents
+@rendermode InteractiveServer
 
 @* Podriamos reemplazar el parametro Items con listas de otros objetos porque es flexible *@
 <GridAutoComponent Items="courses" CSSClass="table table-striped table-bordered table-hover table-responsive" ColumnsToExcludeCSV="Id" />
@@ -11,23 +12,39 @@
     </Header>
     <Row Context="employee">
         <div>
-            <b>@employee.CompanyName</b>
+            <b>@employee.Name</b>
             &nbsp;
-            <button class="btn" @onclick="@(() => { Edit(employee) })">
+            <button class="btn btn-light" @onclick="@(() => { EditEmployee(employee); })">
                 Edit
             </button>
         </div>
-        <div><b>@employee.Name</b></div>
         <div class="ml-5">@employee.Title</div>
         <div class="ml-5">@employee.Department</div>
         <br />
     </Row>
+    <EditTemplate Context="currentEmployee">
+        <div style="max-width: 300px;">
+            <div>
+                <text>Employee Name:</text>
+                <input class="form-control" @bind-value="currentEmployee.Name" />
+            </div>
+            <div>
+                <text>Employee Title:</text>
+                <input class="form-control" @bind-value="currentEmployee.Title" />
+            </div>
+            <div>
+                <text>Employee Department:</text>
+                <input class="form-control" @bind-value="currentEmployee.Department" />
+            </div>
+        </div>
+    </EditTemplate>
 </RepeaterComponent>
 
 @code {
     private RepeaterComponent<Employee> repeater;
     private List<Employee> employees;
     private List<Course> courses;
+    private Employee currentEmployee;
 
     protected override void OnInitialized()
     {

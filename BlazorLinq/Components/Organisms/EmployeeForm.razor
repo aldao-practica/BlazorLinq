@@ -2,7 +2,7 @@
 @using System.ComponentModel.DataAnnotations
 @rendermode InteractiveServer
 @inject NavigationManager NavigationManager
-@inject EmployeeService EmployeeService
+@inject IEmployeeService EmployeeService
 
 <div class="container mt-5">
     <h3 class="mb-5">@(employee.Id == 0 ? "Agregar nuevo Empleado" : "Editar Empleado")</h3>
@@ -13,15 +13,9 @@
         <DataAnnotationsValidator />
 
         <div class="form-group" style="height: 84px;">
-            <label for="firstName">First Name:</label>
-            <InputTextCustom Id="firstName" @bind-MiValor="employee.FirstName" />
-            <ValidationMessage For="@(() => employee.FirstName)" />
-        </div>
-
-        <div class="form-group" style="height: 84px;">
-            <label for="lastName">Last Name:</label>
-            <InputText id="lastName" class="form-control" @bind-Value="employee.LastName" />
-            <ValidationMessage For="@(() => employee.LastName)" />
+            <label for="FullName">Fullname</label>
+            <InputTextCustom Id="fullName" @bind-MiValor="employee.FullName" />
+            <ValidationMessage For="@(() => employee.FullName)" />
         </div>
 
         <div class="form-group" style="height: 84px;">
@@ -51,7 +45,7 @@
 @code {
     [Parameter] public int? EmployeeId { get; set; }
 
-    private Employee employee = new Employee(0, "asd", "asd", string.Empty, 18);
+    private Employee employee = new Employee(0, "asd", string.Empty, 18);
     private string statusMessage = string.Empty;
 
     protected override async Task OnInitializedAsync()
