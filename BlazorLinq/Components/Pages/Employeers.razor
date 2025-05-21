@@ -1,6 +1,7 @@
 ﻿@page "/employees"
 @inject IEmployeeService EmployeeServi
 @inject NavigationManager NavigationManager
+@inject IHttpClientFactory ClientFactory
 @using BlazorLinq.Components.Atoms
 @using BlazorLinq.Components.Molecules
 @rendermode InteractiveServer
@@ -9,7 +10,7 @@
 <PageTitle>Empleados</PageTitle>
 
 <p>Instancia Servicio @EmployeeServi.Uid</p>
- 
+
  @if (employeersList == null)
 {
     <LoadingSpinner />
@@ -58,11 +59,15 @@ else
 }
 
 @code {
+    private List<Cliente> clientes;
     private List<Employee>? employeersList;
     private string SearchInputText { get; set; } = "";
 
     protected override async Task OnInitializedAsync()
     {
+        var client = ClientFactory.CreateClient("Api");
+        clientes = await client.GetFromJsonAsync<List<Cliente>>("api/clientes");
+        Console.WriteLine(clientes);
         // Simulate asynchronous loading to demonstrate streaming rendering
         // await Task.Delay(500);        // usersList = (from user in users
         //                        where user.Age > 18
