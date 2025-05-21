@@ -5,6 +5,8 @@ VisualStudioVersion = 17.12.35527.113
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlazorLinq", "BlazorLinq\BlazorLinq.csproj", "{3D79DDA5-B795-44D1-8D9C-F8FFE8B8154A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Backend", "Backend\Backend.csproj", "{996C34E0-4C58-4352-B6EA-8A88058AE303}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{3D79DDA5-B795-44D1-8D9C-F8FFE8B8154A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3D79DDA5-B795-44D1-8D9C-F8FFE8B8154A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3D79DDA5-B795-44D1-8D9C-F8FFE8B8154A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{996C34E0-4C58-4352-B6EA-8A88058AE303}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{996C34E0-4C58-4352-B6EA-8A88058AE303}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{996C34E0-4C58-4352-B6EA-8A88058AE303}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{996C34E0-4C58-4352-B6EA-8A88058AE303}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

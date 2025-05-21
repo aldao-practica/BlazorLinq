@@ -1,0 +1,76 @@
+﻿-- Borrar la base de datos si existe
+IF EXISTS (SELECT name FROM sys.databases WHERE name = 'PeliculasRenta')
+BEGIN
+    ALTER DATABASE PeliculasRenta SET SINGLE_USER WITH ROLLBACK IMMEDIATE;
+    DROP DATABASE PeliculasRenta;
+END
+GO
+
+-- Crear la base de datos
+CREATE DATABASE PeliculasRenta;
+GO
+
+USE PeliculasRenta;
+GO
+
+-- Tabla de Clientes
+CREATE TABLE Clientes (
+    Id INT IDENTITY PRIMARY KEY,
+    Nombre NVARCHAR(100) NOT NULL,
+    Email NVARCHAR(100) NOT NULL,
+    FechaRegistro DATE DEFAULT GETDATE()
+);
+
+-- Tabla de Películas (sin campo Disponible)
+CREATE TABLE Peliculas (
+    Id INT IDENTITY PRIMARY KEY,
+    Titulo NVARCHAR(150) NOT NULL,
+    Genero NVARCHAR(50),
+    Año INT
+);
+
+-- Tabla de Videocassetes (copias físicas)
+CREATE TABLE Videocassetes (
+    Id INT IDENTITY PRIMARY KEY,
+    CodigoInventario NVARCHAR(50) NOT NULL UNIQUE, -- Ej: VHS-0001
+    PeliculaId INT NOT NULL,
+    Estado NVARCHAR(20) NOT NULL DEFAULT 'Disponible', -- Disponible, Alquilado, Dañado, etc.
+    FOREIGN KEY (PeliculaId) REFERENCES Peliculas(Id)
+);
+
+-- Tabla de Rentas (relacionada a videocassette)
+CREATE TABLE Rentas (
+    Id INT IDENTITY PRIMARY KEY,
+    ClienteId INT NOT NULL,
+    VideocassetteId INT NOT NULL,
+    FechaRenta DATE NOT NULL DEFAULT GETDATE(),
+    FechaDevolucion DATE NULL,
+    FOREIGN KEY (ClienteId) REFERENCES Clientes(Id),
+    FOREIGN KEY (VideocassetteId) REFERENCES Videocassetes(Id)
+);
+
+-- Insertar datos de ejemplo: Clientes
+INSERT INTO Clientes (Nombre, Email) VALUES
+('Juan Pérez', 'juan@example.com'),
+('Ana Gómez', 'ana@example.com'),
+('Luis Torres', 'luis@example.com');
+
+-- Insertar datos de ejemplo: Películas
+INSERT INTO Peliculas (Titulo, Genero, Año) VALUES
+('The Matrix', 'Ciencia Ficción', 1999),
+('Inception', 'Acción', 2010),
+('Titanic', 'Romance', 1997);
+
+-- Insertar videocassetes (3 copias de The Matrix, 2 de Inception, 1 de Titanic)
+INSERT INTO Videocassetes (CodigoInventario, PeliculaId, Estado) VALUES
+('VHS-0001', 1, 'Disponible'),
+('VHS-0002', 1, 'Alquilado'),
+('VHS-0003', 1, 'Disponible'),
+('VHS-0004', 2, 'Disponible'),
+('VHS-0005', 2, 'Alquilado'),
+('VHS-0006', 3, 'Disponible');
+
+-- Rentas de videocassetes
+INSERT INTO Rentas (ClienteId, VideocassetteId, FechaRenta, FechaDevolucion) VALUES
+(1, 2, '2025-05-01', NULL), -- Juan alquila VHS-0002 (Matrix)
+(2, 5, '2025-05-03', NULL); -- Ana alquila VHS-0005 (Inception)
