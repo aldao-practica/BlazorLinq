@@ -5,37 +5,33 @@
 
 <h1 class="mb-5">Razor lifecycle</h1>
 
+<button class="btn btn-primary me-2" @onclick="() => CambiarValor(1)">Valor 1</button>
+
+<OnParametersSetComponet param="@valor" />
+
 @code {
+	[Parameter]
+	public int param { get; set; }
+
+	private int valor = 1;
+
 	protected override void OnInitialized()
 	{
-		Console.WriteLine($"OnInitialized es llamado cuando el componente es inicializado.");
+		Console.WriteLine("OnInitialized es llamado cuando el componente es inicializado.");
 		base.OnInitialized();
 	}
 
 	protected override async Task OnInitializedAsync()
 	{
-		Console.WriteLine($"OnInitializedAsync es llamado cuando el componente es inicializado.");
+		Console.WriteLine("OnInitializedAsync es llamado cuando el componente es inicializado.");
 		await base.OnInitializedAsync();
-	}
-
-	protected override void OnParametersSet()
-	{
-		Console.WriteLine("OnParametersSet es llamado cuando los parametros cambian su valor");
-		base.OnParametersSet();
-	}
-
-	protected override async Task OnParametersSetAsync()
-	{
-		await Task.Delay(500);
-		Console.WriteLine("OnParametersSetAsync es llamado cuando los parametros cambian su valor");
-		await base.OnParametersSetAsync();
 	}
 
 	protected override void OnAfterRender(bool firstRender)
 	{
 		if (firstRender) // Verifica si es la primera renderización
 		{
-			Console.WriteLine("OnAfterRender se ejecuta después de que el componente se ha renderizado en la interfaz de usuario.");
+			Console.WriteLine($"OnAfterRender se ejecuta después de que el componente se ha renderizado en la interfaz de usuario. valor: {param}");
 		}
 		base.OnAfterRender(firstRender);
 	}
@@ -54,5 +50,10 @@
 	{
 		Console.WriteLine("El componente se desmontó y los recursos se liberaron");
 		// Aquí puedes liberar eventos, recursos, etc.
+	}
+
+	void CambiarValor(int nuevo)
+	{
+		valor = valor + nuevo;
 	}
 }

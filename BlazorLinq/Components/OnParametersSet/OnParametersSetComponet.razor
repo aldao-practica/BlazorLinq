@@ -1,0 +1,31 @@
+﻿<h3>Componente OnParametersSet</h3>
+<h4>Valor: @param</h4>
+
+@code {
+    [Parameter] 
+    public int param { get; set; }
+
+    protected override void OnInitialized()
+    {
+        Console.WriteLine("OnInitialized del componente OnParametersSet");
+        base.OnInitialized();
+    }
+
+    protected override void OnParametersSet()
+    {
+        Console.WriteLine($"OnParametersSet value: {param}");
+        base.OnParametersSet();
+    }
+
+    protected override async Task OnParametersSetAsync()
+    {
+        await Task.Delay(500);
+        Console.WriteLine($"OnParametersSetAsync value: {param}");
+        await base.OnParametersSetAsync();
+    }
+
+    protected void Dispose()
+    {
+        Console.WriteLine("Dispose del componente OnParametersSet");
+    }
+}
