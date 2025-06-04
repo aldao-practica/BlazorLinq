@@ -43,10 +43,11 @@ public class MoviesService : IMoviesService
         _http = http;
     }
 
-    //public async Task<List<Cliente>> GetAllCustomersAsync()
-    //{
-    //    private result = await _http.GetFromJsonAsync<List<Cliente>>("api/clientes");
-    //}
+    public async Task<List<Cliente>> GetAllCustomersAsync()
+    {
+        var result = await _http.GetFromJsonAsync<ApiResponse<List<Cliente>>>("api/clientes");
+        return result.Data;
+    }
 
     public async Task<Cliente?> GetCustomerByIdAsync(int id)
     {
