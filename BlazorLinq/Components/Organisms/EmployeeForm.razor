@@ -1,6 +1,8 @@
 ﻿@page "/employee-form/{EmployeeId:int?}"
 @using System.ComponentModel.DataAnnotations
+@using BlazorLinq.Dtos
 @rendermode InteractiveServer
+@inject IMoviesService moviesService
 @inject NavigationManager NavigationManager
 @* @inject IEmployeeService EmployeeService *@
 
@@ -58,18 +60,23 @@
 
     private void HandleValidSubmit()
     {
-        // if (employee.Id != 0)
-        // {
-        //     EmployeeService.UpdateEmployee(employee);
-        //     statusMessage = "Employee updated successfully!";
-        // }
-        // else
-        // {
-        //     EmployeeService.AddEmployee(employee);
-        //     statusMessage = "Employee added successfully!";
-        // }
+        ClienteDto clienteDto = new ClienteDto();
+        clienteDto.Fullname = employee.FullName;
+        clienteDto.Email = employee.Email;
+        clienteDto.Age = employee.Age;
+        if (employee.Id != 0)
+        {
+            // EmployeeService.UpdateEmployee(employee);
+            // statusMessage = "Employee updated successfully!";
+        }
+        else
+        {
+            // EmployeeService.AddEmployee(employee);
+            // statusMessage = "Employee added successfully!";
+            // moviesService.CreateCustomerAsync(clienteDto);
 
-        // NavigationManager.NavigateTo("/employees");
+        }
+        NavigationManager.NavigateTo("/employees");
     }
 
     private void Cancel()

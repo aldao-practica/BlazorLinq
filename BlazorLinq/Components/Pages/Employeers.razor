@@ -2,7 +2,7 @@
 @* @inject IEmployeeService EmployeeServi *@
 @inject NavigationManager NavigationManager
 @* @inject IHttpClientFactory ClientFactory *@
-@inject IMoviesService MoviesService
+@inject IMoviesService moviesService
 @using BlazorLinq.Components.Atoms
 @using BlazorLinq.Components.Molecules
 @rendermode InteractiveServer
@@ -68,7 +68,7 @@ else
         // var client = ClientFactory.CreateClient("Api");
         
         // customerList = await client.GetFromJsonAsync<List<Cliente>>("api/clientes");
-        customerList = await MoviesService.GetAllCustomersAsync();
+        // customerList = await moviesService.GetAllCustomersAsync();
     }
 
     private void FiltrarMayoresDeEdad()
