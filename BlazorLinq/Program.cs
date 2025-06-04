@@ -7,10 +7,15 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
 
-builder.Services.AddSingleton<IEmployeeService, EmployeeService>();
-builder.Services.AddHttpClient("Api", client =>
+//builder.Services.AddSingleton<IEmployeeService, EmployeeService>();
+//builder.Services.AddHttpClient("Api", client =>
+//{
+//    client.BaseAddress = new Uri("https://localhost:7216/"); // URL del backend
+//});
+
+builder.Services.AddHttpClient<IMoviesService, MoviesService>("Api", client =>
 {
-    client.BaseAddress = new Uri("https://localhost:7216/"); // URL del backend
+    client.BaseAddress = new Uri("https://localhost:7216/");
 });
 
 var app = builder.Build();

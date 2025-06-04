@@ -1,7 +1,8 @@
 ﻿@page "/employees"
-@inject IEmployeeService EmployeeServi
+@* @inject IEmployeeService EmployeeServi *@
 @inject NavigationManager NavigationManager
-@inject IHttpClientFactory ClientFactory
+@* @inject IHttpClientFactory ClientFactory *@
+@inject IMoviesService MoviesService
 @using BlazorLinq.Components.Atoms
 @using BlazorLinq.Components.Molecules
 @rendermode InteractiveServer
@@ -9,9 +10,9 @@
 
 <PageTitle>Empleados</PageTitle>
 
-<p>Instancia Servicio @EmployeeServi.Uid</p>
+@* <p>Instancia Servicio @EmployeeServi.Uid</p> *@
 
- @if (employeersList == null)
+ @if (customerList == null)
 {
     <LoadingSpinner />
 }
@@ -37,10 +38,10 @@ else
                 </tr>
             </thead>
             <tbody>
-                @foreach (var forecast in employeersList)
+                @foreach (var forecast in customerList)
                 {
                     <tr>
-                        <td>@forecast.FullName</td>
+                        <td>@forecast.Fullname</td>
                         <td>@forecast.Age</td>
                         <td>
                             <a href="/employee-form/@forecast.Id" class="btn btn-primary">Editar</a>
@@ -52,45 +53,40 @@ else
 
         <div class="container d-flex justify-content-center flex-wrap">
             <PrimaryButton Text="Mostrar sólo mayores de edad" OnClick="FiltrarMayoresDeEdad" />
-            <PrimaryButton Text="Borrar Empleado" OnClick="RemoveEmployee" />
+            @* <PrimaryButton Text="Borrar Empleado" OnClick="RemoveEmployee" /> *@
         </div>
     </div>
 
 }
 
 @code {
-    private List<Cliente> clientes;
-    private List<Employee>? employeersList;
+    private List<Cliente>? customerList;
     private string SearchInputText { get; set; } = "";
 
     protected override async Task OnInitializedAsync()
     {
-        var client = ClientFactory.CreateClient("Api");
-        clientes = await client.GetFromJsonAsync<List<Cliente>>("api/clientes");
-        Console.WriteLine(clientes);
-        // Simulate asynchronous loading to demonstrate streaming rendering
-        // await Task.Delay(500);        // usersList = (from user in users
-        //                        where user.Age > 18
-        //                        select user).ToList();
-        employeersList = EmployeeServi.GetAllEmployees();
+        // var client = ClientFactory.CreateClient("Api");
+        
+        // customerList = await client.GetFromJsonAsync<List<Cliente>>("api/clientes");
+        customerList = await MoviesService.GetAllCustomersAsync();
     }
 
     private void FiltrarMayoresDeEdad()
     {
-        employeersList = (from user in employeersList
+        customerList = (from user in customerList
                      where user.Age > 18
                      select user).ToList();
     }
 
     private void BuscarEmpleado()
     {
-        employeersList = employeersList?.Where(u => u.FullName.ToLower().Contains(SearchInputText.ToLower())).ToList();
+        customerList = customerList?.Where(u => u.Fullname.ToLower().Contains(SearchInputText.ToLower())).ToList();
     }
 
-    private void RemoveEmployee()
-    {
-        EmployeeServi.RemoveEmployee(5);
-    }
+    // private void RemoveEmployee()
+    // {
+    //     EmployeeServi.RemoveEmployee(5);
+    // }
 
     private void NavigateToNewEmployeeForm()
     {

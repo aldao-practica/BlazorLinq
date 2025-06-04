@@ -2,7 +2,7 @@
 @using System.ComponentModel.DataAnnotations
 @rendermode InteractiveServer
 @inject NavigationManager NavigationManager
-@inject IEmployeeService EmployeeService
+@* @inject IEmployeeService EmployeeService *@
 
 <div class="container mt-5">
     <h3 class="mb-5">@(employee.Id == 0 ? "Agregar nuevo Empleado" : "Editar Empleado")</h3>
@@ -50,26 +50,26 @@
 
     protected override async Task OnInitializedAsync()
     {
-        if (EmployeeId.HasValue)
-        {
-            employee = EmployeeService.GetEmployeeById(EmployeeId.Value);
-        }
+        // if (EmployeeId.HasValue)
+        // {
+        //     employee = EmployeeService.GetEmployeeById(EmployeeId.Value);
+        // }
     }
 
     private void HandleValidSubmit()
     {
-        if (employee.Id != 0)
-        {
-            EmployeeService.UpdateEmployee(employee);
-            statusMessage = "Employee updated successfully!";
-        }
-        else
-        {
-            EmployeeService.AddEmployee(employee);
-            statusMessage = "Employee added successfully!";
-        }
+        // if (employee.Id != 0)
+        // {
+        //     EmployeeService.UpdateEmployee(employee);
+        //     statusMessage = "Employee updated successfully!";
+        // }
+        // else
+        // {
+        //     EmployeeService.AddEmployee(employee);
+        //     statusMessage = "Employee added successfully!";
+        // }
 
-        NavigationManager.NavigateTo("/employees");
+        // NavigationManager.NavigateTo("/employees");
     }
 
     private void Cancel()
